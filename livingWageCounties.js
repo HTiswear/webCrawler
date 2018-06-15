@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const app     = express();
 
 
-exports.processStateHTML =  function (instate, incounty, url){
+exports.processCountyHTML =  function (instate, incounty, url){
 	var state, county, livingWageAmt;
 	var countyInfo = { state : "", county : "", livingWageAmt : ""};
 	

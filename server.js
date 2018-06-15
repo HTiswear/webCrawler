@@ -7,7 +7,7 @@ var states = require('./livingWageStates');
 
 app.get('/scrape', function(req, res){
   // Let's scrape Anchorman 2
-  url = 'http://livingwage.mit.edu/';
+  url = 'http://livingwage.mit.edu';
 
   request(url, function(error, response, html){
     if(!error){
@@ -20,13 +20,13 @@ app.get('/scrape', function(req, res){
 	  var resultsToDisplay = [];
 	  
 	  $('.states > div').each(function(i, elm) {			
-			$('.col-sm-3 > li').each(function(i, elm) {
+			$('div.col-sm-3 > li').each(function(i, elm) {
 				var data = $(this);
 				if(desiredStates.indexOf(data.text().trim()){
 					var state = data.text().trim();
 					var newUrl = html + data.attr("href");
 					console.log(state + " about to go to " + newUrl);
-					results = states.processStateHTML(state, newUrl);
+					setTimeout(results = states.processStateHTML(state, newUrl),500);
 					console.log("results are: " + results);
 					resultsToDisplay.push(results);										
 				};
