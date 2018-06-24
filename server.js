@@ -13,29 +13,34 @@ app.get('/scrape', function(req, res){
     if(!error){
       var $ = cheerio.load(html);
 
-
 	  var desiredStates = ["Delaware"];
 	  var results =[];
       
 	  var resultsToDisplay = [];
 	  
-	  $('.states > div').each(function(i, elm) {			
-			$('div.col-sm-3 > li').each(function(i, elm) {
-				var data = $(this);
-				if(desiredStates.indexOf(data.text().trim()){
-					var state = data.text().trim();
-					var newUrl = html + data.attr("href");
-					console.log(state + " about to go to " + newUrl);
-					setTimeout(results = states.processStateHTML(state, newUrl),500);
-					console.log("results are: " + results);
-					resultsToDisplay.push(results);										
-				};
+	  
+	  
+	  $('.states').children('div').children('li').children('a').each(function(i, elm) {	
+
+			var data = $(this);
 			
-			});
+			if(desiredStates.includes(data.text().trim())){
+				var state = data.text().trim();
+				var newUrl = url + data.attr("href");
+				console.log(state + " about to go to " + newUrl);
+				results = states.processStateHTML(state, newUrl);
+				//resultsToDisplay.push(results);	
+			
+				
+			};
+			
+
+			
+			
 			
 		});
 	  
-	  
+	 /*
       $('.states list-unstyled row').filter(function(){
         var data = $(this);
         title = data.children().first().text().trim();
@@ -45,17 +50,17 @@ app.get('/scrape', function(req, res){
         //json.release = release;
       })
 		
-		
-     resultsToDisplay.sort(function(a, b) {
+	
+		resultsToDisplay.sort(function(a, b) {
 		return parseFloat(a.livingWageAmt) - parseFloat(b.livingWageAmt);
-	});
-   
+		});
+   */
     }
 
     //fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
      // console.log('File successfully written! - Check your project directory for the output.json file');
     //})
-
+	//console.log(resultsToDisplay);
     res.send('Check your console!')
   })
 })

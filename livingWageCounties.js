@@ -5,25 +5,29 @@ const cheerio = require('cheerio');
 const app     = express();
 
 
-exports.processCountyHTML =  function (instate, incounty, url){
+exports.processCountyHTML = function (instate, incounty, url){
 	var state, county, livingWageAmt;
 	var countyInfo = { state : "", county : "", livingWageAmt : ""};
+	var myJSON;
 	
 	 request(url, function(error, response, html){
 		if(!error){
 			  var $ = cheerio.load(html);
      			  			  
 			  var row = $('.expenses_table').find("tr[class='odd results']").find("td:nth-child(8)").text().trim();
-			  console.log("livng wage amount is " + row);
 			  countyInfo.state = instate;
 			  countyInfo.county = incounty;
-			  countyInfo.livingWageAmt = row;
+			  countyInfo.livingWageAmt = row;	
+			  myJSON = JSON.stringify(countyInfo);
+			  
+			  //console.log(response);
+			  
 		};
-  });
+	});
   
-  return countyInfo;
+  
 	
-	
+	return(myJSON);
 	
 	
 };
